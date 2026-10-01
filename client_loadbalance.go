@@ -93,15 +93,6 @@ func pinTransportToIP(base *http.Transport, ip string) *http.Transport {
 			}
 			return orig(ctx, network, rewritten)
 		}
-	} else if clone.DialTLS != nil {
-		orig := clone.DialTLS
-		clone.DialTLS = func(network, addr string) (net.Conn, error) {
-			rewritten, err := replaceDialHost(addr, ip)
-			if err != nil {
-				return nil, err
-			}
-			return orig(network, rewritten)
-		}
 	}
 	return clone
 }
